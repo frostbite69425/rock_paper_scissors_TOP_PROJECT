@@ -1,12 +1,19 @@
+// BASIC LOGGING FUNCTION TO MAKE DEBUGGING MORE STREAMLINED
+
 function log(x) {
   console.log(x);
 }
 
+// ARRAY FOR THE TOTAL POSSIBLE CHOICES
 const computerChoices = ["rock", "paper", "scissors"];
+
+// RANDOM NUMBER GENERATOR THAT ACCESSES A RANDOM ITEM FROM THE ARRAY DEPENDING ON THE VALUE OF THE RANDOM NUMBER
 
 function randomNumberGenerator() {
   return Math.floor(Math.random() * 3);
 }
+
+// GENERATES RANDOM COMPUTER CHOICE BY INITIALISING THE RANDOM NUMBER GENERATOR AND THEN USING THE VALUE TO GRAB A RANDOM VALUE FROM THE ARRAY
 
 function getComputerChoice() {
   let randomNumber = randomNumberGenerator();
@@ -14,6 +21,10 @@ function getComputerChoice() {
   log("computer choice: " + computerChoice);
   return computerChoice;
 }
+
+// PROMPTS THE USER TO GIVE ONE OF THE THREE VALID VALUES. REPEATS THE FUNCTION IN CASE OF AN INVALID VALUE.
+
+// INVALID VALUE CONTINUATION IS BUGGED AND NEEDS TO BE DEBUGGED
 
 function getHumanChoice() {
   let humanChoice = prompt(
@@ -25,9 +36,14 @@ function getHumanChoice() {
   if (computerChoices.includes(humanChoice) == false) {
     alert("Make a valid choice human!");
     getHumanChoice();
+  } else if (computerChoices.includes(humanChoice) == true) {
+    log(humanChoice);
+    return humanChoice;
   }
-  return humanChoice;
+  log(humanChoice);
 }
+
+// FUNCTION THAT KEEPS TAB OF THE SCORES AND INITIALISES A ROUND 5 TIMES UPDATING THE VALUES EACH TIME
 
 function playGame() {
   let playerScore = 0;
@@ -39,6 +55,8 @@ function playGame() {
   }
 
   displayScores();
+
+  // SWITCH CASE LOGIC DETERMINING THE WINNER OF EACH STANDOFF
 
   function playRound(humanChoice, computerChoice) {
     switch (humanChoice + "|" + computerChoice) {
@@ -88,6 +106,8 @@ function playGame() {
   }
 
   let rounds = 0;
+
+  // WHILE LOOP THAT CAUSES THE GAMETO END AT 5 ROUNDS
 
   while (rounds < 5) {
     log("ROUND: " + Number(rounds + 1));
