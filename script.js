@@ -22,9 +22,7 @@ function getComputerChoice() {
   return computerChoice;
 }
 
-// PROMPTS THE USER TO GIVE ONE OF THE THREE VALID VALUES. REPEATS THE FUNCTION IN CASE OF AN INVALID VALUE.
-
-// INVALID VALUE CONTINUATION IS BUGGED AND NEEDS TO BE DEBUGGED
+// PROMPTS THE USER TO INPUT A VALUE.
 
 function getHumanChoice() {
   let humanChoice = prompt(
@@ -32,15 +30,15 @@ function getHumanChoice() {
     "rock"
   ).toLowerCase();
   log("human choice: " + humanChoice);
+  return humanChoice;
 
-  if (computerChoices.includes(humanChoice) == false) {
-    alert("Make a valid choice human!");
-    getHumanChoice();
-  } else if (computerChoices.includes(humanChoice) == true) {
-    log(humanChoice);
-    return humanChoice;
-  }
-  log(humanChoice);
+  // if (computerChoices.includes(humanChoice) == false) {
+  //   alert("Make a valid choice human!");
+  //   getHumanChoice();
+  // } else if (computerChoices.includes(humanChoice) == true) {
+  //   log(humanChoice);
+  //   return humanChoice;
+  // }
 }
 
 // FUNCTION THAT KEEPS TAB OF THE SCORES AND INITIALISES A ROUND 5 TIMES UPDATING THE VALUES EACH TIME
