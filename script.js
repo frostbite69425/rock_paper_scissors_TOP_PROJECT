@@ -7,6 +7,10 @@ function log(x) {
 // ARRAY FOR THE TOTAL POSSIBLE CHOICES
 const computerChoices = ["rock", "paper", "scissors"];
 
+// ARRAY FOR THE SRC ATTRIBUTE OF THE IMG ELEMENT
+
+const imgSrc = ["fistPixel.png", "paperPixel.png", "scissorsPixel.png"];
+
 // RANDOM NUMBER GENERATOR THAT ACCESSES A RANDOM ITEM FROM THE ARRAY DEPENDING ON THE VALUE OF THE RANDOM NUMBER
 
 function randomNumberGenerator() {
@@ -22,24 +26,17 @@ function getComputerChoice() {
   return computerChoice;
 }
 
-// PROMPTS THE USER TO INPUT A VALUE.
+// GETS THE USER INPUT AND STORES THE VALUE.
 
-function getHumanChoice() {
-  let humanChoice = prompt(
-    "Make your choice human! Rock, Paper or Scissors?",
-    "rock"
-  ).toLowerCase();
-  log("human choice: " + humanChoice);
-  return humanChoice;
+let humanChoice = "";
 
-  // if (computerChoices.includes(humanChoice) == false) {
-  //   alert("Make a valid choice human!");
-  //   getHumanChoice();
-  // } else if (computerChoices.includes(humanChoice) == true) {
-  //   log(humanChoice);
-  //   return humanChoice;
-  // }
-}
+const btnList = document.querySelectorAll(".human-choice-buttons");
+btnList.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    humanChoice = btn.lastElementChild.innerText;
+    console.log(humanChoice);
+  });
+});
 
 // FUNCTION THAT KEEPS TAB OF THE SCORES AND INITIALISES A ROUND 5 TIMES UPDATING THE VALUES EACH TIME
 
@@ -107,7 +104,9 @@ function playGame() {
 
   // WHILE LOOP THAT CAUSES THE GAMETO END AT 5 ROUNDS
 
-  while (rounds < 5) {
+  // rounds < 5
+
+  while (true) {
     log("ROUND: " + Number(rounds + 1));
     playRound(getHumanChoice(), getComputerChoice());
     rounds++;

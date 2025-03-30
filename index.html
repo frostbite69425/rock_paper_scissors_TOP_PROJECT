@@ -5,9 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Honk&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- <script src="script.js" defer></script> -->
   </head>
   <body>
-    <h1>ROCK, PAPER, SCISSORS CONSOLE GAME</h1>
+    <h1 class="header honk-title">ROCK, PAPER AND SCISSORS</h1>
+    <div class="round-counter">
+      <span class="bungee-tint-regular"> ROUND : </span>
+      <span class="number bungee-tint-regular">0</span>
+    </div>
+    <div class="score-display bungee-tint-regular">
+      <div class="scores">
+        <div class="computer">
+          <span class="computer-score">COMPUTER SCORE: </span>
+          <span class="computer-score-number">0</span>
+        </div>
+        <div class="human">
+          <span class="human-score">HUMAN SCORE: </span>
+          <span class="human-score-number">0</span>
+        </div>
+      </div>
+      <div class="display-section">
+        <div class="computer-choice-box">
+          <div class="gui-text-box bungee-tint-regular">COMPUTER CHOICE</div>
+          <div class="changing-img-comp">
+            <img src="" alt="" />
+          </div>
+        </div>
+        <div class="result-box"></div>
+        <div class="human-choice-box">
+          <div class="gui-text-box bungee-tint-regular">HUMAN CHOICE</div>
+          <div class="changing-img-human">
+            <img src="" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="computer-choices"></div> -->
+    <div class="human-choices">
+      <div class="info vt323-regular">MAKE YOUR CHOICE!</div>
+      <div class="btn-container">
+        <button class="human-choice-buttons">
+          <img
+            draggable="false"
+            class="pixel-icons"
+            src="fistPixel.png"
+            alt="Red Fist Pixel Art"
+          />
+          <span class="text">ROCK</span></button
+        ><button class="human-choice-buttons">
+          <img
+            draggable="false"
+            class="pixel-icons paper"
+            src="paperPixel.png"
+            alt="Paper Pixel Art"
+          />
+          <span class="text">PAPER</span></button
+        ><button class="human-choice-buttons">
+          <img
+            draggable="false"
+            class="pixel-icons"
+            src="scissorsPixel.png"
+            alt="Scissors Pixel Art"
+          />
+          <span class="text">PAPER</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- <div class="credits">
+
+      https://www.pixilart.com/art/red-fist-c001262efdce0c9 
+      red fist
+
+      https://www.pixilart.com/art/transition-37c46b5b4126995 scissors
+
+      https://www.pixilart.com/art/base-lined-paper-sr5za57a3e716baws3 scissors
+    </div> -->
   </body>
 </html>
