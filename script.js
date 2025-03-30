@@ -1,7 +1,7 @@
 // BASIC LOGGING FUNCTION TO MAKE DEBUGGING MORE STREAMLINED
 
 function log(x) {
-  console.log(x);
+  // console.log(x);
 }
 
 // ARRAY FOR THE TOTAL POSSIBLE CHOICES
@@ -19,106 +19,219 @@ function randomNumberGenerator() {
 
 // GENERATES RANDOM COMPUTER CHOICE BY INITIALISING THE RANDOM NUMBER GENERATOR AND THEN USING THE VALUE TO GRAB A RANDOM VALUE FROM THE ARRAY
 
+let computerChoice = "";
+
 function getComputerChoice() {
   let randomNumber = randomNumberGenerator();
-  let computerChoice = computerChoices[randomNumber];
+  srcChanger(randomNumber);
+  computerChoice = computerChoices[randomNumber];
   log("computer choice: " + computerChoice);
-  return computerChoice;
 }
 
 // GETS THE USER INPUT AND STORES THE VALUE.
-
-let humanChoice = "";
+let computerScore = 0;
+let humanScore = 0;
 
 const btnList = document.querySelectorAll(".human-choice-buttons");
 btnList.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    humanChoice = btn.lastElementChild.innerText;
-    console.log(humanChoice);
-  });
+  const handleClick = () => {
+    if (computerScore < 5 && humanScore < 5) {
+      let humanChoice = btn.lastElementChild.innerText.toLowerCase();
+      log(humanChoice);
+      computerChoices.forEach((choice) => {
+        if (humanChoice == choice) {
+          humanSrcChanger(computerChoices.indexOf(choice));
+        }
+      });
+      getComputerChoice();
+      roundIncrement();
+      playRound(humanChoice, computerChoice);
+    } else {
+      // roundIncrement();
+      btnList.forEach((btn) => (btn.disabled = true));
+      // displayFinalResults(computerScore, humanScore);
+    }
+  };
+  btn.addEventListener("click", handleClick);
 });
 
-// FUNCTION THAT KEEPS TAB OF THE SCORES AND INITIALISES A ROUND 5 TIMES UPDATING THE VALUES EACH TIME
+// FUNCTION FOR INCREMENTING THE ROUND COUNTER
 
-function playGame() {
-  let playerScore = 0;
-  let computerScore = 0;
+const roundCounter = document.querySelector(
+  "body > div.round-counter > span.number.bungee-tint-regular"
+);
 
-  function displayScores() {
-    log("Player Score: " + playerScore);
-    log("Computer Score: " + computerScore);
-  }
+function roundIncrement() {
+  roundCounter.innerText = Number(roundCounter.innerText) + 1;
+}
 
-  displayScores();
+// FUNCTION TO MAKE A VISUAL OF THE CHOICE FOR THE COMPUTER AND THE USER
 
-  // SWITCH CASE LOGIC DETERMINING THE WINNER OF EACH STANDOFF
+const compChangingImg = document.querySelector(
+  "body > div.score-display.bungee-tint-regular > div.display-section > div.computer-choice-box > div.changing-img-comp > img"
+);
 
-  function playRound(humanChoice, computerChoice) {
-    switch (humanChoice + "|" + computerChoice) {
-      case "rock|rock":
-        log("It's a tie! No one wins!");
-        displayScores();
-        break;
-      case "paper|paper":
-        log("It's a tie! No one wins!");
-        displayScores();
-        break;
-      case "scissors|scissors":
-        log("It's a tie! No one wins!");
-        displayScores();
-        break;
-      case "rock|paper":
-        log("You lose! Paper beats rock!");
-        computerScore++;
-        displayScores();
-        break;
-      case "paper|scissors":
-        log("You lose! Scissors beats paper!");
-        computerScore++;
-        displayScores();
-        break;
-      case "scissors|rock":
-        log("You lose! Rock beats scissors!");
-        computerScore++;
-        displayScores();
-        break;
-      case "paper|rock":
-        log("You win! Paper beats rock!");
-        playerScore++;
-        displayScores();
-        break;
-      case "scissors|paper":
-        log("You win! Scissors beats paper!");
-        playerScore++;
-        displayScores();
-        break;
-      case "rock|scissors":
-        log("You win! Rock beats scissors!");
-        playerScore++;
-        displayScores();
-        break;
+function srcChanger(i) {
+  compChangingImg.setAttribute("src", imgSrc[i]);
+}
+
+const humanChangingImg = document.querySelector(
+  "body > div.score-display.bungee-tint-regular > div.display-section > div.human-choice-box > div.changing-img-human > img"
+);
+
+function humanSrcChanger(i) {
+  humanChangingImg.setAttribute("src", imgSrc[i]);
+}
+
+// FUNCTION TO DISPLAY THE RESULT OF THE CURRENT ROUND
+
+const resultBox = document.querySelector(
+  "body > div.score-display.bungee-tint-regular > div.display-section > div.result-box"
+);
+
+function currentRoundResults(text) {
+  resultBox.innerHTML = "";
+  resultText = document.createTextNode(`${text}`);
+  resultBox.appendChild(resultText);
+  resultBox.style.display = "flex";
+}
+
+// FUNCTION TO DISPLAY THE SCORES
+
+const computerScoreDisplay = document.querySelector(
+  "body > div.score-display.bungee-tint-regular > div.scores > div.computer > span.computer-score-number"
+);
+
+const playerScoreDisplay = document.querySelector(
+  "body > div.score-display.bungee-tint-regular > div.scores > div.human > span.human-score-number"
+);
+
+function scoreIncrement(faction) {
+  if (humanScore < 4 && computerScore < 4) {
+    if (faction == "human") {
+      playerScoreDisplay.innerText = Number(playerScoreDisplay.innerText) + 1;
+      ++humanScore;
+    } else {
+      computerScoreDisplay.innerText =
+        Number(computerScoreDisplay.innerText) + 1;
+      ++computerScore;
     }
-  }
-
-  let rounds = 0;
-
-  // WHILE LOOP THAT CAUSES THE GAMETO END AT 5 ROUNDS
-
-  // rounds < 5
-
-  while (true) {
-    log("ROUND: " + Number(rounds + 1));
-    playRound(getHumanChoice(), getComputerChoice());
-    rounds++;
-  }
-
-  if (playerScore > computerScore) {
-    log("You win! Congragulations!");
-  } else if (playerScore == computerScore) {
-    log("It's a tie! Nobody wins!");
-  } else {
-    log("You lost! Wanna try again?");
+  } else if (humanScore == 4 && computerScore == 4) {
+    if (faction == "human") {
+      playerScoreDisplay.innerText = Number(playerScoreDisplay.innerText) + 1;
+      ++humanScore;
+      displayFinalResults(computerScore, humanScore);
+      btnList.forEach((btn) => (btn.disabled = true));
+    } else {
+      computerScoreDisplay.innerText =
+        Number(computerScoreDisplay.innerText) + 1;
+      ++computerScore;
+      displayFinalResults(computerScore, humanScore);
+      btnList.forEach((btn) => (btn.disabled = true));
+    }
+  } else if (humanScore == 4 && computerScore < 4) {
+    if (faction == "human") {
+      playerScoreDisplay.innerText = Number(playerScoreDisplay.innerText) + 1;
+      ++humanScore;
+      displayFinalResults(computerScore, humanScore);
+      btnList.forEach((btn) => (btn.disabled = true));
+    } else {
+      computerScoreDisplay.innerText =
+        Number(computerScoreDisplay.innerText) + 1;
+      ++computerScore;
+    }
+  } else if (computerScore == 4 && humanScore < 4) {
+    if (faction == "human") {
+      playerScoreDisplay.innerText = Number(playerScoreDisplay.innerText) + 1;
+      ++humanScore;
+    } else {
+      computerScoreDisplay.innerText =
+        Number(computerScoreDisplay.innerText) + 1;
+      ++computerScore;
+      displayFinalResults(computerScore, humanScore);
+      btnList.forEach((btn) => (btn.disabled = true));
+    }
   }
 }
 
-playGame();
+// FUNCTION TO DISPLAY THE FINAL RESULT
+
+const resultDisplaySection = document.querySelector(
+  "body > div.score-display.bungee-tint-regular > div.display-section"
+);
+
+function displayFinalResults(computerScore, humanScore) {
+  if (humanScore > computerScore) {
+    // resultBox.innerText = "Congragulations! You win! Wanna play again?";
+    resultBox.innerHTML = `<div> Congragulations! You win! Wanna play again?</div><div class="restart-button-container"><button class="restart">Yes</button><button class="restart">No</button></div>`;
+  } else {
+    // resultBox.innerText = "Unlucky! You lost! Wanna Try Again?";
+    resultBox.innerHTML = `<div> Unlucky! You lost! Wanna Try Again?</div><div class="restart-button-container"><button class="restart">Yes</button><button class="restart">No</button></div>`;
+  }
+  const yes = document.querySelector(
+    "body > div.score-display.bungee-tint-regular > div.display-section > div.result-box > div.restart-button-container > button:nth-child(1)"
+  );
+
+  const no = document.querySelector(
+    "body > div.score-display.bungee-tint-regular > div.display-section > div.result-box > div.restart-button-container > button:nth-child(2)"
+  );
+
+  const humanChoiceDiv = document.querySelector(".human-choices");
+
+  // FUNCTION TO PLAY THE GAME AGAIN
+
+  yes.addEventListener("click", () => {
+    window.location.reload();
+  });
+
+  const roundSection = document.querySelector("body > div.round-counter");
+  const scoresSection = document.querySelector("div.scores");
+
+  no.addEventListener("click", () => {
+    resultDisplaySection.innerText = "Thanks for playing!";
+    humanChoiceDiv.innerHTML = "";
+    humanChoiceDiv.style.display = "none";
+    roundSection.innerHTML = "";
+    scoresSection.innerHTML = "";
+  });
+}
+
+// FUNCTION TO CHECK THE LOGIC OF THE CHOICES
+
+function playRound(humanChoice, computerChoice) {
+  switch (humanChoice + "|" + computerChoice) {
+    case "rock|rock":
+      currentRoundResults("It's a tie! No one wins!");
+      break;
+    case "paper|paper":
+      currentRoundResults("It's a tie! No one wins!");
+      break;
+    case "scissors|scissors":
+      currentRoundResults("It's a tie! No one wins!");
+      break;
+    case "rock|paper":
+      currentRoundResults("You lose! Paper beats rock!");
+      scoreIncrement();
+      break;
+    case "paper|scissors":
+      currentRoundResults("You lose! Scissors beats paper!");
+      scoreIncrement();
+      break;
+    case "scissors|rock":
+      currentRoundResults("You lose! Rock beats scissors!");
+      scoreIncrement();
+      break;
+    case "paper|rock":
+      currentRoundResults("You win! Paper beats rock!");
+      scoreIncrement("human");
+      break;
+    case "scissors|paper":
+      currentRoundResults("You win! Scissors beats paper!");
+      scoreIncrement("human");
+      break;
+    case "rock|scissors":
+      currentRoundResults("You win! Rock beats scissors!");
+      scoreIncrement("human");
+      break;
+  }
+}
